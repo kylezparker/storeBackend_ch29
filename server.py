@@ -1,6 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 from about import me
 from data import mock_data
+
+import random
 import json
 
 app= Flask ('server')
@@ -50,6 +52,19 @@ def aboutProducts():
     # return me["first"] + " " +me["last"]
     # return f
     return json.dumps(mock_data) #parse dicitonary into json string
+
+@app.post("/api/products")
+def save_product():
+    product= request.get_json()
+
+    # add product to cat, assign an id to product, return as json
+    mock_data.append(product)
+    product["id"]= random.randint(1, 123123123123)
+    return json.dumps(product)
+
+    # print(product)
+
+    
 
 # @app.post("/api/products")
 @app.get("/api/products/<id>")
@@ -116,6 +131,26 @@ def categories():
     return json.dumps(listed)
 
 
+# return # of prods in catalog
+# api/count_products
+
+@app.get("/api/count_products")
+def countPrpducts():
+   count= len(mock_data)
+   return json.dumps({"count": count})
+
+
+@app.get("/api/search/<text>")
+def returnText(text):
+    results = []
+
+    text=text.lower()
+    for prod in mock_data:
+        # if text in prod.title:
+        if text in prod["title"].lower():
+            results.append(prod)
+
+    return json.dumps(results)
 
 
 
