@@ -3,12 +3,14 @@ from colorama import Cursor
 from flask import Flask, request
 from about import me
 from data import mock_data
+from flask_cors import CORS
 
 import random
 import json
 from config import db
 
 app= Flask ('server')
+CORS(app)   #allow request from any origin 
 # print("hello from server")
 
 
@@ -175,7 +177,7 @@ def get_categories():
     # listed=[]
     # for cat in mock_data:
     #     list.append(cat["category"])
-    #     if not cat["category"]  in listed:
+    #     if not cat["category"]  in listed:venv
     #         listed.append(cat["category"])
 
     categories=[]
@@ -230,6 +232,11 @@ def returnText(text):
             results.append(prod)
 
     return json.dumps(results)
+
+
+
+    ################################################################################
+    ############ API ENDPOINTS = coupoons codes ######################################
 
 
 
